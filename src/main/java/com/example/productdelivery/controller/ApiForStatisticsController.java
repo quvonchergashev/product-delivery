@@ -20,8 +20,6 @@ public class ApiForStatisticsController {
 
     private final TransactionService transactionService;
 
-    private final CarrierService carrierService;
-
     @GetMapping("/delivery-regions/{transactionNumber}")
     public List<String> deliveryRegionsPerNT(
             @PathVariable Integer transactionNumber

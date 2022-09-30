@@ -1,24 +1,28 @@
 package com.example.productdelivery.controller;
 
-import com.example.productdelivery.Message.ApiResult;
-import com.example.productdelivery.dto.ResponseDto;
-import com.example.productdelivery.entity.Users;
-import com.example.productdelivery.service.RegisterService;
+import com.example.productdelivery.dto.LoginDto;
+import com.example.productdelivery.dto.RegisterDto;
+import com.example.productdelivery.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
 public class RegisterController {
 
-    private final RegisterService registerService;
+
+    private final UserService userService;
 
     @PostMapping("/sign-up")
-    public ApiResult signUp(@RequestBody Users users){
-        return registerService.signUp(users);
+    public ResponseEntity<?> register( @RequestBody RegisterDto registerDto)throws IOException {
+        if (userService.register(registerDto)) return ResponseEntity.ok("Success");
+        return ResponseEntity.status(409).body("Not Found");
     }
     @GetMapping("/sign-in")
-    public ApiResult signIn(@RequestBody ResponseDto responseDto){
-        return registerService.singIn(responseDto);
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
+        if (userService.login(loginDto)) return ResponseEntity.ok("Success");
+        return ResponseEntity.status(409).body("password/username not found");
     }
 }
