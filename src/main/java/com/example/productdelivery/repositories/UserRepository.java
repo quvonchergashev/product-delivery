@@ -1,20 +1,20 @@
 package com.example.productdelivery.repositories;
-
-import com.example.productdelivery.entity.Carrier;
-import com.example.productdelivery.entity.Users;
+import com.example.productdelivery.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
-@Repository
-public interface UserRepository extends JpaRepository<Users,Long> {
-    Optional<Users> findByUserName(String userName);
+public interface UserRepository extends JpaRepository<User, UUID> {
 
-    Optional<Users> findByPassword(String password);
 
-    boolean existsByUserName(String username);
+    Optional<User> findByPhoneNumber(String phoneNumber);
 
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    boolean existsByPhoneNumberAndIdNot(String phoneNumber, UUID id);
+
+    boolean existsByAdditionalPhoneNumber(String additionalPhoneNumber);
 
 
 }
