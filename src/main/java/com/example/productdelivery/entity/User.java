@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import java.util.Collection;
 import java.util.List;
@@ -30,7 +31,7 @@ public class User extends AbsUUIDEntity implements UserDetails {
     private String additionalPhoneNumber;
 
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Roles> roles;
 
     @Column(unique = true)

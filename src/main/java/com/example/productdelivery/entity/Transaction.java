@@ -16,7 +16,7 @@ public class Transaction {
     private Long id;
     private String carrierName;
     private Integer score=0;
-    private Integer transactionNumber;
+    private Integer transactionNumber=0;
     @OneToOne
     private Offer offer;
     @OneToOne

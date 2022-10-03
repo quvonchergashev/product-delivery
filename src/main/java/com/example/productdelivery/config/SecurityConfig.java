@@ -2,7 +2,6 @@ package com.example.productdelivery.config;
 
 import com.example.productdelivery.security.JwtFilter;
 import com.example.productdelivery.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -37,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/login", "/auth/register")
                 .permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/add-region","/add-carrier", "/get-carriers-for-region/*","/delivery-regions/*","/score-per-carrier/*").hasRole("ADMIN")
+                .antMatchers("/add-offer","/add-request","/add-transaction","/evaluate-transaction").hasRole("USER");
+
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
