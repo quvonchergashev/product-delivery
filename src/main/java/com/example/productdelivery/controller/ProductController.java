@@ -36,13 +36,6 @@ public class ProductController {
         return ResponseEntity.status(409).body(responseApi);
     }
 
-//    @PostMapping(value = "/edit",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<?> edit(MultipartHttpServletRequest request, Product product) throws IOException {
-//        ResponseApi responseApi = productService.add(product, request);
-//        if (responseApi.isSuccess()) return ResponseEntity.ok(responseApi);
-//        return ResponseEntity.status(409).body(responseApi);
-//    }
-
     @PostMapping("/delete/{productId}")
     public ResponseEntity<?> deleteById(@PathVariable Long productId){
         ResponseApi responseApi = productService.deleteById(productId);
