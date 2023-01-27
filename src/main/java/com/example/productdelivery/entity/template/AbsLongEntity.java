@@ -17,7 +17,6 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @MappedSuperclass
 public class AbsLongEntity extends AbsEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

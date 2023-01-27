@@ -10,13 +10,11 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterDto {
-    @NotBlank(message = "full Name must not be null")
-    private String fullName;
-    @NotBlank(message = "PhoneNumber must not be null")
+    private String firstname;
+    private String lastname;
     private String phoneNumber;
-
-    @NotBlank(message = "PrePassword must not be null")
-    private String prePassword;
-    @NotBlank(message = "Password must not be null")
+    private String username;
     private String password;
+    private String prePassword;
+    private String email;
 }

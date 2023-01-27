@@ -4,18 +4,19 @@ import com.example.productdelivery.dto.CarrierDto;
 import com.example.productdelivery.entity.Carrier;
 import com.example.productdelivery.entity.Region;
 import com.example.productdelivery.repositories.CarrierRepository;
+import com.example.productdelivery.service.interfaces.CarrierService;
+import com.example.productdelivery.service.interfaces.RegionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CarrierService {
+public class CarrierServiceImpl implements CarrierService {
 
     private final CarrierRepository carrierRepository;
 

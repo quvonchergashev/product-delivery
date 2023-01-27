@@ -1,6 +1,7 @@
 package com.example.productdelivery.entity;
 
 import com.example.productdelivery.dto.PlaceDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Place {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_region")
     @ToString.Exclude
+    @JsonIgnore
     private Region region;
 
     public Place(PlaceDto placeDto, final Region region) {

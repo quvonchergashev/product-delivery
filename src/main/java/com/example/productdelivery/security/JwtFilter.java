@@ -2,7 +2,6 @@ package com.example.productdelivery.security;
 
 import com.example.productdelivery.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +20,8 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     JwtProvider jwtProvider;
     @Autowired
-
     AuthService authService;
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -37,8 +36,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             boolean validateToken = jwtProvider.validateToken(token);
             if (validateToken) {
-                String phoneNumber = jwtProvider.getUsernameFromToken(token);
-                UserDetails userDetails = authService.loadUserByUsername(phoneNumber);
+                String username = jwtProvider.getUsernameFromToken(token);
+                UserDetails userDetails = authService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

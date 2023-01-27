@@ -10,7 +10,6 @@ import java.util.List;
 public interface CarrierRepository extends JpaRepository<Carrier,Long> {
     boolean existsByName(String name);
     Carrier findByName(String name);
-
     List<Carrier> findCarriersByRegion_Name(String region_name);
 
 

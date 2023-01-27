@@ -1,75 +1,62 @@
 package com.example.productdelivery.entity;
 
-
-import com.example.productdelivery.entity.template.AbsUUIDEntity;
+import com.example.productdelivery.consts.Status;
+import com.example.productdelivery.entity.template.AbsLongEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import java.util.Collection;
-import java.util.List;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "users")
-public class User extends AbsUUIDEntity implements UserDetails {
+public class User extends AbsLongEntity {
+
+    @NotNull(message = "first name is required")
+    @Pattern(message = "just enter a letter", regexp = "^[a-zA-Z']+$")
+    @Size(message = "First name must be at least 3 characters long", min = 3)
+    private String firstname;
+
+    @NotNull(message = "last name is required")
+    @Pattern(message = "just enter a letter", regexp = "^[a-zA-Z']+$")
+    @Size(message = "Last name must be at least 3 characters long", min = 3)
+    private String lastname;
+
+    @Column(nullable = false, unique = true)
+    @Size(message = "User name must be at least 3 characters long", min = 3)
+    private String username;
 
     @Column(nullable = false)
-    private String fullName;
-    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    @Size(min = 8)
+//    @Pattern(message = "The password must contain at least 8 characters, at least one lowercase letter, one uppercase letter, one number and one special character (!#@$*)",
+//            regexp ="^[a-zA-Z]+[0-9]+$")
+    private String password;
+
+    @Column(nullable = false)
+    private String image;
+
+    private String status = String.valueOf(Status.ENABLED);
+
     private String phoneNumber;
 
-    private String additionalPhoneNumber;
+    private String encodingName;
 
-    private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Roles> roles;
-
-    @Column(unique = true)
-    private Long chatId;
+    @OneToOne
+    private Roles role;
 
 
-    private boolean accountNonExpired = true;
-    private boolean accountNonLocked = true;
-    private boolean credentialsNonExpired = true;
-    private boolean enabled = true;
-
-    @Override
-    public String getUsername() {
-        return this.phoneNumber;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return this.roles;
-    }
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
 }

@@ -17,11 +17,11 @@ public class JwtProvider {
     private int jwtExpirationInMs;
 
 
-    public String generateToken(String phoneNumber) {
+    public String generateToken(String username) {
 
         String token = Jwts
                 .builder()
-                .setSubject(phoneNumber)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -31,13 +31,13 @@ public class JwtProvider {
 
     public String getUsernameFromToken(String token) {
         try {
-            String phoneNumber = Jwts
+            String username = Jwts
                     .parser()
                     .setSigningKey(jwtSecret)
                     .parseClaimsJws(token)
                     .getBody().getSubject();
 
-            return phoneNumber;
+            return username;
         } catch (Exception e) {
             return null;
         }

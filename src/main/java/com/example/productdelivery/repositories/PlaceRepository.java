@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,Long> {
     boolean existsByName(String name);
-
     Place findByName(String name);
 }

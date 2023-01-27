@@ -1,5 +1,6 @@
 package com.example.productdelivery.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,12 @@ public class Requests {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String placeName;
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Product product;
-    @OneToOne
-    private Transaction transaction;
+
+    @ManyToOne
+    @JsonIgnore
+    private User user;
 }

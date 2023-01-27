@@ -1,8 +1,11 @@
 package com.example.productdelivery.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
