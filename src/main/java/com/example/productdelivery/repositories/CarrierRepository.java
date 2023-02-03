@@ -12,6 +12,8 @@ public interface CarrierRepository extends JpaRepository<Carrier,Long> {
     Carrier findByName(String name);
     List<Carrier> findCarriersByRegion_Name(String region_name);
 
+    List<Carrier> findAllByRegion_Id(Long region_id);
+
 
 
 

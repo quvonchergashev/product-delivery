@@ -1,16 +1,16 @@
 package com.example.productdelivery.controller;
 
 import com.example.productdelivery.dto.ScorePerCarrierDto;
-import com.example.productdelivery.entity.Transaction;
+
 import com.example.productdelivery.service.interfaces.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,17 +21,9 @@ public class StatisticsController {
 
     private final TransactionService transactionService;
 
-    @GetMapping("/delivery-regions/{transactionNumber}")
-    public List<String> deliveryRegionsPerNT(
-            @PathVariable Integer transactionNumber
-    ){
-        List<String> regions=new ArrayList<>();
-        for (Transaction transaction : transactionService.findAll()) {
-            if (transaction.getTransactionNumber().equals(transactionNumber)) {
-                regions.add(transaction.getOffer().getPlaceName());
-            }
-        }
-        return regions;
+    @GetMapping("/delivery-regions")
+    public ResponseEntity<?> deliveryRegionsPerNT(){
+        return ResponseEntity.ok(transactionService.deliveryRegion());
     }
     @GetMapping("/score-per-carrier/{minimumScore}")
     public List<ScorePerCarrierDto> scorePerCarrier(

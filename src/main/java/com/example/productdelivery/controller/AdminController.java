@@ -3,6 +3,7 @@ package com.example.productdelivery.controller;
 import com.example.productdelivery.consts.PasswordEncode;
 import com.example.productdelivery.dto.RegisterAdminDto;
 import com.example.productdelivery.dto.UpdateStatusDto;
+import com.example.productdelivery.dto.UserEditDto;
 import com.example.productdelivery.entity.User;
 import com.example.productdelivery.payload.ResponseApi;
 import com.example.productdelivery.service.interfaces.AdminService;
@@ -60,12 +61,6 @@ public class AdminController {
         ResponseApi delete = adminService.delete(id);
         if (delete.isSuccess()) return ResponseEntity.ok(delete);
         return ResponseEntity.status(409).body(delete);
-    }
-    @PostMapping("/edit")
-    public ResponseEntity<?> edit(@RequestBody User user){
-        ResponseApi edit = adminService.edit(user);
-        if (edit.isSuccess()) return ResponseEntity.ok(edit);
-        return ResponseEntity.status(409).body(edit);
     }
 
 

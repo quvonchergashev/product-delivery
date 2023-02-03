@@ -18,11 +18,14 @@ public class UserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
     private final String email;
+
+    private final String status;
     private final List<GrantedAuthority> authorities;
 
 
     public UserDetailsImpl(User user) {
         id = user.getId();
+        status=user.getStatus();
         username = user.getUsername();
         password = user.getPassword();
         email = user.getEmail();
@@ -56,6 +59,8 @@ public class UserDetailsImpl implements UserDetails {
     public String getEmail() {
         return email;
     }
+
+    public String getStatus(){return status;}
 
 
     @Override

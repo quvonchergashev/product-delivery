@@ -1,8 +1,8 @@
 package com.example.productdelivery.service;
 
-import com.example.productdelivery.consts.Status;
 import com.example.productdelivery.dto.RegisterAdminDto;
 import com.example.productdelivery.dto.UpdateStatusDto;
+import com.example.productdelivery.dto.UserEditDto;
 import com.example.productdelivery.entity.Attachment;
 import com.example.productdelivery.entity.Roles;
 import com.example.productdelivery.entity.User;
@@ -10,6 +10,7 @@ import com.example.productdelivery.payload.ResponseApi;
 import com.example.productdelivery.repositories.AttachmentRepository;
 import com.example.productdelivery.service.interfaces.AdminService;
 import com.example.productdelivery.service.interfaces.RoleService;
+import com.example.productdelivery.service.interfaces.TransactionService;
 import com.example.productdelivery.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +33,8 @@ public class AdminServiceImpl implements AdminService {
     private final AttachmentRepository attachmentRepository;
     private final UserService userService;
     private final RoleService roleService;
+
+    private final TransactionService transactionService;
     private static final String uploadDirectory="AdminsImages";
     private final PasswordEncoder passwordEncoder;
 
@@ -85,6 +88,7 @@ public class AdminServiceImpl implements AdminService {
         if (userOptional.isEmpty()) {
             return new ResponseApi("Not found user",false);
         }
+        transactionService.deleteByUserId(id);
         userService.deleteById(id);
         return new ResponseApi("Success deleted",true);
     }
@@ -103,8 +107,4 @@ public class AdminServiceImpl implements AdminService {
         return new ResponseApi("Success edit status",true);
     }
 
-    @Override
-    public ResponseApi edit(User user) {
-        return userService.edit(user);
-    }
 }

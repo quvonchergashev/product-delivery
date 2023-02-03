@@ -12,8 +12,9 @@ public interface CarrierService {
     Carrier save(CarrierDto carrierDto);
 
     List<String> getCarriersForRegion(String regionName);
-
     Carrier findByName(String name);
+
+    void findAllByRegion_Id(Long regionId);
 
 
 

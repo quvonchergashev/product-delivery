@@ -49,7 +49,10 @@ public class AuthService implements UserDetailsService {
         try {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     loginDto.getUsername(), loginDto.getPassword()));
-            UserDetails user = (UserDetails) authenticate.getPrincipal();
+            UserDetailsImpl user = (UserDetailsImpl) authenticate.getPrincipal();
+            if(user.getStatus().equals("DISABLED")){
+                return new ResponseApi("User blocked",false);
+            }
             String token;
             if (loginDto.getUsername().contains("@")) {
                 token = jwtProvider.generateToken(loginDto.getUsername());

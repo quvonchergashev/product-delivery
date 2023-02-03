@@ -58,4 +58,12 @@ public class CarrierServiceImpl implements CarrierService {
 
     public Carrier findByName(String name){return carrierRepository.findByName(name);}
 
+    @Override
+    public void findAllByRegion_Id(Long regionId) {
+        for (Carrier carrier : carrierRepository.findAllByRegion_Id(regionId)) {
+            carrierRepository.deleteById(carrier.getId());
+        }
+
+    }
+
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/carrier")
-@PreAuthorize(value = "hasAnyRole('ROLE_CARRIER','ROLE_SUPER_ADMIN')")
+@PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')")
 @RequiredArgsConstructor
 public class CarrierController {
 

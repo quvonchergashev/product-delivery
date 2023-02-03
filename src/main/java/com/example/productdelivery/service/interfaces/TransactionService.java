@@ -24,5 +24,7 @@ public interface TransactionService {
     ResponseApi findById(Long id);
 
 
+    void deleteByUserId(Long id);
 
+    ResponseApi deliveryRegion();
 }

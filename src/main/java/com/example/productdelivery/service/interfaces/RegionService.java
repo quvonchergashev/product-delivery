@@ -22,4 +22,6 @@ public interface RegionService {
     ResponseApi deleteById(Long id);
 
     Optional<Region> findById(Long id);
+
+    List<Region> findAllByCarrierName(String carrierName);
 }

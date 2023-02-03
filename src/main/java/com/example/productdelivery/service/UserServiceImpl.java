@@ -1,6 +1,7 @@
 package com.example.productdelivery.service;
 
 import com.example.productdelivery.dto.RegisterDto;
+import com.example.productdelivery.dto.UserEditDto;
 import com.example.productdelivery.dto.UserForRoleDto;
 import com.example.productdelivery.entity.Attachment;
 import com.example.productdelivery.entity.Roles;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.management.relation.Role;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -88,10 +88,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseApi edit(User user) {
-        Optional<User> byId = userRepository.findById(user.getId());
+    public ResponseApi edit(UserEditDto userEditDto) {
+        Optional<User> byId = userRepository.findById(userEditDto.getId());
         if (byId.isEmpty()) return new ResponseApi("Not found user",false);
-        userRepository.save(user);
+        userRepository.save(byId.get());
         return new ResponseApi("Success edited", true);
     }
 

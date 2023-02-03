@@ -5,9 +5,10 @@ import com.example.productdelivery.entity.Place;
 import com.example.productdelivery.entity.Region;
 import com.example.productdelivery.payload.ResponseApi;
 import com.example.productdelivery.repositories.RegionRepository;
+import com.example.productdelivery.service.interfaces.CarrierService;
 import com.example.productdelivery.service.interfaces.PlaceService;
 import com.example.productdelivery.service.interfaces.RegionService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,11 +18,17 @@ import java.util.Optional;
 
 
 @Service
-@RequiredArgsConstructor
-public class RegionServiceImpl implements RegionService {
 
+public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
     private final PlaceService placeService;
+    private final CarrierService carrierService;
+
+    public RegionServiceImpl(RegionRepository regionRepository, PlaceService placeService, @Lazy CarrierService carrierService) {
+        this.regionRepository = regionRepository;
+        this.placeService = placeService;
+        this.carrierService = carrierService;
+    }
 
     @Override
     public List<Region> findAll() {
@@ -76,12 +83,18 @@ public class RegionServiceImpl implements RegionService {
     public ResponseApi deleteById(Long id) {
         Optional<Region> byId = regionRepository.findById(id);
         if (byId.isEmpty()) return new ResponseApi("Not found region",false);
+        byId.get().removeCarriers();
         regionRepository.deleteById(id);
         return new ResponseApi("Success deleted region",true);
     }
     @Override
     public Optional<Region> findById(Long id) {
         return regionRepository.findById(id);
+    }
+
+    @Override
+    public List<Region> findAllByCarrierName(String carrierName) {
+        return regionRepository.findAllByCarriersName(carrierName);
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.productdelivery.service;
 
+import com.example.productdelivery.dto.DeliveryRegionDto;
 import com.example.productdelivery.dto.EvaluateTransactionDto;
 import com.example.productdelivery.dto.ScorePerCarrierDto;
 import com.example.productdelivery.dto.TransactionDto;
@@ -11,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +23,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final RequestService requestService;
     private final CarrierService carrierService;
     private final UserService userService;
+
+    private final RegionService regionService;
 
 
 
@@ -84,6 +84,40 @@ public class TransactionServiceImpl implements TransactionService {
             return new ResponseApi("Not found transaction",false);
         }
         return new ResponseApi("Success",true,byId.get());
+    }
+
+    @Override
+    public void deleteByUserId(Long id) {
+        for (Transaction transaction : transactionRepository.findAllByUserId(id)) {
+            transactionRepository.deleteById(transaction.getId());
+        }
+    }
+    @Override
+    public ResponseApi deliveryRegion() {
+        List<Integer> integers = transactionRepository.findAll()
+                .stream()
+                .map(transaction -> transaction.getTransactionNumber())
+                .sorted()
+                .distinct()
+                .toList();
+
+        List<DeliveryRegionDto> deliveryRegionDtos=new ArrayList<>();
+
+            for (Integer integer : integers) {
+                DeliveryRegionDto deliveryRegionDto=new DeliveryRegionDto();
+                deliveryRegionDto.setTransactionNumber(integer);
+                List<Region> regions=new ArrayList<>();
+                for (Transaction transaction : transactionRepository.findAll()) {
+                if (transaction.getTransactionNumber().equals(integer)) {
+                    for (Region region : regionService.findAllByCarrierName(transaction.getCarrierName())) {
+                        regions.add(region);
+                    }
+                }
+            }
+                deliveryRegionDto.setRegionList(regions);
+                deliveryRegionDtos.add(deliveryRegionDto);
+        }
+            return new ResponseApi("Success",true,deliveryRegionDtos);
     }
 
     @Override
